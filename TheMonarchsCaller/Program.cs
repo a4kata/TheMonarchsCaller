@@ -11,12 +11,12 @@ namespace TheMonarchsCaller
         static async Task Main(string[] args)
         {
             SetupClient();
-            await GetMonarchsCount();
-            await GetLongestRuledMonarch();
-            await GetLongestRuledHouse();
-            await GetMostCommonName();
+            await CallMonarchAPI("GetMonarchsCount");
+            await CallMonarchAPI("GetLongestRuledMonarch");
+            await CallMonarchAPI("GetLongestRuledHouse");
+            await CallMonarchAPI("GetMostCommonName");
             //extra
-            // await GetMonarchs_List();
+            //await CallMonarchAPI("GetMonarchs_All");
         }
 
         private static void SetupClient()
@@ -26,35 +26,11 @@ namespace TheMonarchsCaller
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/text"));
         }
-        private static async Task GetMonarchs_List()
+        private static async Task CallMonarchAPI(string method)
         {
-            var response = await client.GetAsync("api/Monarchs/GetMonarchs_All");
+            var response = await client.GetAsync($"api/Monarchs/{method}");
             var contetnt = response.Content.ReadAsStringAsync().Result;
-            Console.WriteLine($"GetMonarchs_List -> {contetnt}");
-        }
-        private static async Task GetMostCommonName()
-        {
-            var response = await client.GetAsync("api/Monarchs/GetMostCommonName");
-            var contetnt = response.Content.ReadAsStringAsync().Result;
-            Console.WriteLine($"GetMostCommonName -> {contetnt}");
-        }
-        private static async Task GetLongestRuledHouse()
-        {
-            var response = await client.GetAsync("api/Monarchs/GetLongestRuledHouse");
-            var contetnt = response.Content.ReadAsStringAsync().Result;
-            Console.WriteLine($"GetLongestRuledHouse -> {contetnt}");
-        }
-        private static async Task GetLongestRuledMonarch()
-        {
-            var response = await client.GetAsync("api/Monarchs/GetLongestRuledMonarch");
-            var contetnt = response.Content.ReadAsStringAsync().Result;
-            Console.WriteLine($"GetLongestRuledMonarch -> {contetnt}");
-        }
-        private static async Task GetMonarchsCount()
-        {
-            var response = await client.GetAsync("api/Monarchs/GetMonarchsCount");
-            var contetnt = response.Content.ReadAsStringAsync().Result;
-            Console.WriteLine($"GetMonarchsCount -> {contetnt}");
+            Console.WriteLine($"{method} -> {contetnt}");
         }
     }
 }
